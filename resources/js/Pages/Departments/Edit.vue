@@ -1,7 +1,7 @@
 <template>
   <breeze-authenticated-layout>
     <template #header>
-      <breeze-heading>Create New Department</breeze-heading>
+      <breeze-heading>Edit Department - <span v-once>{{ form.name }}</span></breeze-heading>
     </template>
 
     <div v-show="form.hasErrors">
@@ -49,9 +49,10 @@
       <!-- submit -->
       <div class="flex items-center justify-end">
         <breeze-reset-button @click="resetForm">Rest</breeze-reset-button>
-        <breeze-button :loading="form.processing">Create</breeze-button>
+        <breeze-button :loading="form.processing">Update</breeze-button>
       </div>
     </form>
+
   </breeze-authenticated-layout>
 </template>
 
@@ -77,15 +78,18 @@ export default {
     BreezeResetButton,
     BreezeHeading,
   },
-  setup() {
+  props: {
+    department: Object,
+  },
+  setup(props) {
     const form = useForm({
-      name: null,
-      email: null,
-      phone: null,
+      name: props.department.name,
+      email: props.department.email,
+      phone: props.department.phone,
     });
 
     const submit = () => {
-      form.post(route("departments.store"));
+      form.put(route("departments.update", props.department.id));
     };
 
     const resetForm = () => {

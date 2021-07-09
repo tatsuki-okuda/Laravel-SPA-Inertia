@@ -21,6 +21,9 @@
                                 <breeze-nav-link :href="route('departments.index')" :active="route().current('departments.index')">
                                     Departments
                                 </breeze-nav-link>
+                                <breeze-nav-link :href="route('employees.index')" :active="route().current('employees.index')">
+                                    Employees
+                                </breeze-nav-link>
                             </div>
                         </div>
 
@@ -70,6 +73,9 @@
                         <breeze-responsive-nav-link :href="route('departments.index')" :active="route().current('departments.index')">
                             Departments
                         </breeze-responsive-nav-link>
+                        <breeze-responsive-nav-link :href="route('employees.index')" :active="route().current('employees.index')">
+                            Employees
+                        </breeze-responsive-nav-link>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -97,7 +103,16 @@
 
             <!-- Page Content -->
             <main>
-                <slot />
+                <breeze-flash-message />
+                <div class="py-12">
+                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                            <div class="p-6 bg-white border-b border-gray-200">
+                                <slot />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
@@ -108,6 +123,7 @@
     import BreezeDropdown from '@/Components/Dropdown'
     import BreezeDropdownLink from '@/Components/DropdownLink'
     import BreezeNavLink from '@/Components/NavLink'
+    import BreezeFlashMessage from '@/Components/FlashMessage'
     import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink'
 
     export default {
@@ -117,6 +133,7 @@
             BreezeDropdownLink,
             BreezeNavLink,
             BreezeResponsiveNavLink,
+            BreezeFlashMessage,
         },
 
         data() {
