@@ -18897,15 +18897,48 @@ __webpack_require__.r(__webpack_exports__);
     BreezeLink: _Components_AnchorLink__WEBPACK_IMPORTED_MODULE_4__.default
   },
   props: {
-    departments: Object
+    departments: Object,
+    can: Object,
+    sortby: String,
+    sort: String
   },
-  setup: function setup() {
+  setup: function setup(props) {
     var destroy = function destroy(id) {
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__.Inertia.delete(route('departments.destroy', id));
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__.Inertia.delete(route('departments.destroy', id), {
+        preserveScroll: true
+      });
+    };
+
+    var employee = function employee(id) {
+      // Inertia.get(route('employees.index'), {department_id: id })
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__.Inertia.visit(route('employees.index'), {
+        method: 'get',
+        data: {
+          department_id: id
+        }
+      });
+    };
+
+    var sortColumn = function sortColumn(col) {
+      var sort = props.sort;
+
+      if (col === props.sortby) {
+        sort = 'desc';
+      } else {
+        sort = 'asc';
+      }
+
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_5__.Inertia.get(route('departments.index'), {
+        'sortby': col,
+        'sort': sort,
+        'page': props.departments.current_page
+      });
     };
 
     return {
-      destroy: destroy
+      destroy: destroy,
+      employee: employee,
+      sortColumn: sortColumn
     };
   }
 });
@@ -21254,6 +21287,8 @@ var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ");
 
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" View ");
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_breeze_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("breeze-link");
 
@@ -21270,7 +21305,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [_hoisted_1];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_link, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [$props.can.create ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_breeze_link, {
+        key: 0,
         href: _ctx.route('departments.create')
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -21281,23 +21317,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_table, null, {
+      , ["href"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_table, null, {
         header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_tc, null, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_tc, {
+            onClick: _cache[1] || (_cache[1] = function ($event) {
+              return $setup.sortColumn('id');
+            })
+          }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [_hoisted_4];
             }),
             _: 1
             /* STABLE */
 
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_tc, null, {
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_tc, {
+            onClick: _cache[2] || (_cache[2] = function ($event) {
+              return $setup.sortColumn('name');
+            })
+          }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [_hoisted_5];
             }),
             _: 1
             /* STABLE */
 
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_tc, null, {
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_tc, {
+            onClick: _cache[3] || (_cache[3] = function ($event) {
+              return $setup.sortColumn('email');
+            })
+          }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [_hoisted_6];
             }),
@@ -21371,7 +21419,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             /* DYNAMIC_SLOTS */
             ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_tc, null, {
               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_link, {
+                return [d.can.edit ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_breeze_link, {
+                  key: 0,
                   mode: "edit",
                   href: _ctx.route('departments.edit', d.id)
                 }, {
@@ -21383,7 +21432,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                 }, 1032
                 /* PROPS, DYNAMIC_SLOTS */
-                , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_link, {
+                , ["href"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), d.can["delete"] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_breeze_link, {
+                  key: 1,
                   mode: "delete",
                   onClick: function onClick($event) {
                     return $setup.destroy(d.id);
@@ -21391,6 +21441,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 }, {
                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                     return [_hoisted_10];
+                  }),
+                  _: 2
+                  /* DYNAMIC */
+
+                }, 1032
+                /* PROPS, DYNAMIC_SLOTS */
+                , ["onClick"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_link, {
+                  mode: "view",
+                  onClick: function onClick($event) {
+                    return $setup.employee(d.id);
+                  }
+                }, {
+                  "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                    return [_hoisted_11];
                   }),
                   _: 2
                   /* DYNAMIC */

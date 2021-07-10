@@ -7,15 +7,17 @@
     </template>
 
     <div class="flex items-end justify-end mb-6">
-      <breeze-link :href="route('departments.create')"
+      <breeze-link 
+        :href="route('departments.create')"
+        v-if="can.create"
         >Create Department</breeze-link
       >
     </div>
     <breeze-table>
       <template #header>
-        <breeze-tc>Id</breeze-tc>
-        <breeze-tc>Name</breeze-tc>
-        <breeze-tc>Email</breeze-tc>
+        <breeze-tc @click="sortColumn('id')">Id</breeze-tc>
+        <breeze-tc @click="sortColumn('name')">Name</breeze-tc>
+        <breeze-tc @click="sortColumn('email')">Email</breeze-tc>
         <breeze-tc>Phone</breeze-tc>
         <breeze-tc>Actions</breeze-tc>
       </template>
@@ -25,11 +27,22 @@
         <breeze-tc>{{ d.email }}</breeze-tc>
         <breeze-tc>{{ d.phone }}</breeze-tc>
         <breeze-tc>
-          <breeze-link mode="edit" :href="route('departments.edit', d.id)">
+          <breeze-link 
+            mode="edit" 
+            :href="route('departments.edit', d.id)"
+            v-if="d.can.edit"
+          >
             Edit
           </breeze-link>
-          <breeze-link mode="delete" @click="destroy(d.id)">
+          <breeze-link 
+            mode="delete"
+            @click="destroy(d.id)"
+            v-if="d.can.delete"
+          >
             Delete
+          </breeze-link>
+          <breeze-link mode="view" @click="employee(d.id)">
+            View
           </breeze-link>
         </breeze-tc>
       </tr>
@@ -57,13 +70,43 @@ export default {
   },
   props: {
     departments: Object,
+    can : Object,
+    sortby : String,
+    sort : String
   },
-  setup() {
+  setup(props) {
+    
     const destroy = (id) =>{
-      Inertia.delete(route('departments.destroy', id))
+      Inertia.delete(route('departments.destroy', id), {preserveScroll: true})
+    }
+
+    const employee = (id)=>{
+      // Inertia.get(route('employees.index'), {department_id: id })
+      Inertia.visit(route('employees.index'),{
+        method: 'get',
+        data: {department_id: id }
+      })
+    }
+
+    const sortColumn = (col) => {
+
+      let sort = props.sort;
+      if( col === props.sortby ){
+        sort = 'desc'
+      } else {
+        sort = 'asc'
+      }
+      
+      Inertia.get(route('departments.index'), {
+        'sortby': col, 
+        'sort': sort, 
+        'page': props.departments.current_page
+      });
     }
     return {
-      destroy
+      destroy,
+      employee,
+      sortColumn
     }
   },
 };

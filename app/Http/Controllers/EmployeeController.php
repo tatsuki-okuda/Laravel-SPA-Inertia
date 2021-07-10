@@ -61,7 +61,6 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
         return Inertia::render('Employees/Create', [
             'departments' => Department::orderBy('name')->get()
                 ->transform(function ($d) {
@@ -69,7 +68,8 @@ class EmployeeController extends Controller
                         'id' => $d->id,
                         'label' =>  $d->name
                     ];
-                })
+                }),
+                
         ]);
     }
 
