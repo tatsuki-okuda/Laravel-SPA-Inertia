@@ -30,3 +30,5 @@ class UserController extends Controller
         return Redirect::route('edit-profile')->with('success', 'Profile Updated Succes.');
     }
 }
+
+
