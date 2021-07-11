@@ -15,9 +15,9 @@
     </div>
     <breeze-table>
       <template #header>
-        <breeze-tc @click="sortColumn('id')">Id</breeze-tc>
-        <breeze-tc @click="sortColumn('name')">Name</breeze-tc>
-        <breeze-tc @click="sortColumn('email')">Email</breeze-tc>
+        <breeze-tc @click="sortColumn('id')" :sortHeader="true" field="id"  :sortby="sortby" :sort="sort" >Id</breeze-tc>
+        <breeze-tc @click="sortColumn('name')" :sortHeader="true" field="name"  :sortby="sortby" :sort="sort" >Name</breeze-tc>
+        <breeze-tc @click="sortColumn('email')" :sortHeader="true" field="email"  :sortby="sortby" :sort="sort" >Email</breeze-tc>
         <breeze-tc>Phone</breeze-tc>
         <breeze-tc>Actions</breeze-tc>
       </template>
@@ -91,10 +91,12 @@ export default {
     const sortColumn = (col) => {
 
       let sort = props.sort;
-      if( col === props.sortby ){
-        sort = 'desc'
-      } else {
-        sort = 'asc'
+      if (col == props.sortby) {
+        if (props.sort == "asc") {
+          sort = "desc";
+        } else {
+          sort = "asc";
+        }
       }
       
       Inertia.get(route('departments.index'), {

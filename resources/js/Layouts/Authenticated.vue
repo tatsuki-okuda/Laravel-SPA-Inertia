@@ -18,10 +18,12 @@
                                 <breeze-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </breeze-nav-link>
-                                <breeze-nav-link :href="route('departments.index')" :active="route().current('departments.index')">
+                                <!-- <breeze-nav-link :href="route('departments.index')" :active="route().current('departments.index')"> -->
+                                <breeze-nav-link :href="route('departments.index')" :active="isActive('department')">
                                     Departments
                                 </breeze-nav-link>
-                                <breeze-nav-link :href="route('employees.index')" :active="route().current('employees.index')">
+                                <!-- <breeze-nav-link :href="route('employees.index')" :active="route().current('employees.index')"> -->
+                                <breeze-nav-link :href="route('employees.index')" :active="isActive('employee')">
                                     Employees
                                 </breeze-nav-link>
                             </div>
@@ -44,6 +46,9 @@
                                     </template>
 
                                     <template #content>
+                                        <breeze-dropdown-link :href="route('edit-profile')">
+                                            Edit Profile
+                                        </breeze-dropdown-link>
                                         <breeze-dropdown-link :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </breeze-dropdown-link>
@@ -70,10 +75,12 @@
                         <breeze-responsive-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </breeze-responsive-nav-link>
-                        <breeze-responsive-nav-link :href="route('departments.index')" :active="route().current('departments.index')">
+                        <!-- <breeze-responsive-nav-link :href="route('departments.index')" :active="route().current('departments.index')"> -->
+                        <breeze-responsive-nav-link :href="route('departments.index')" :active="isActive('department')">
                             Departments
                         </breeze-responsive-nav-link>
-                        <breeze-responsive-nav-link :href="route('employees.index')" :active="route().current('employees.index')">
+                        <!-- <breeze-responsive-nav-link :href="route('employees.index')" :active="route().current('employees.index')"> -->
+                        <breeze-responsive-nav-link :href="route('employees.index')" :active="isActive('employee')">
                             Employees
                         </breeze-responsive-nav-link>
                     </div>
@@ -86,6 +93,9 @@
                         </div>
 
                         <div class="mt-3 space-y-1">
+                            <breeze-responsive-nav-link :href="route('edit-profile')">
+                                Edit Profile
+                            </breeze-responsive-nav-link>
                             <breeze-responsive-nav-link :href="route('logout')" method="post" as="button">
                                 Log Out
                             </breeze-responsive-nav-link>
@@ -141,5 +151,17 @@
                 showingNavigationDropdown: false,
             }
         },
+
+        methods: {
+            isActive(str){
+                // https://techacademy.jp/magazine/32876
+                let locationUrl = location.pathname.substring(1);
+                // https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
+                if(locationUrl.startsWith(str)){
+                    return true;
+                }
+                return false;
+            }
+        }
     }
 </script>

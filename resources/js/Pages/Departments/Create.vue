@@ -4,6 +4,10 @@
       <breeze-heading>Create New Department</breeze-heading>
     </template>
 
+    <div class="p-36 mt-3">
+      Some dummy div.
+    </div>
+
     <div v-show="form.hasErrors">
       <div class="text-red-600 font-medium">
         Please make the following corrects
@@ -85,7 +89,9 @@ export default {
     });
 
     const submit = () => {
-      form.post(route("departments.store"));
+      form.post(route("departments.store"), {
+        preserveScroll : (page) => Object.keys(page.props.errors).length
+      });
     };
 
     const resetForm = () => {
